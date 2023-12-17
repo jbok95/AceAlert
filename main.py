@@ -15,7 +15,7 @@ def tee_time_booker(request):
 
     # Pulls specified times from Cloud Scheduler
     request_json = request.get_json()
-
+    #check if this works
     tgt_time = request_json.get('tgt_time', '08:37')
     max_time = request_json.get('max_time', '10:00')
 
