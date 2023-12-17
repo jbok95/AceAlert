@@ -9,15 +9,15 @@ def tee_time_booker(request):
     """FINDS THE BEST AVAILABLE TEE TIME AT MANGROVE BAY 
     ONE WEEK OUT AND BOOKS THAT TEE TIME FOR ME"""
 
-    target_start = "06:00:00" #must be in format hh:mm:ss
-    timeout_minutes = 5
-    # wait_until(target_start, timeout_minutes)
-
     # Pulls specified times from Cloud Scheduler
     request_json = request.get_json()
-    #check if this works
+    target_start = request_json.get('target_start', '06:00:00')
     tgt_time = request_json.get('tgt_time', '08:37')
     max_time = request_json.get('max_time', '10:00')
+
+    # target_start = "06:00:00" #must be in format hh:mm:ss
+    timeout_minutes = 5
+    wait_until(target_start, timeout_minutes)
 
     # Tries to book the target tee time first
     first_try = get_target_date_payload() + " "+tgt_time #08:37
