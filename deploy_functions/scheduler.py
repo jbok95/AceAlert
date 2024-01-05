@@ -1,8 +1,20 @@
+"""
+Waits until the specified time that tee times become available
+"""
 import datetime
 import time
 import pytz
 
 def wait_until(target, timeout_minutes):
+    """
+    Waits until specified time to start the program
+
+    Parameters:
+    - target (str): target time for when tee times are released in form hh:mm:ss
+    - timeout_minutes (int): maximum amount of time to wait before ending function
+    - sheet_title (str): name of targeted sheet
+    """
+
     # Set the timezone to Eastern Time
     et_timezone = pytz.timezone('US/Eastern')
     target_hr = int(target[:2])
