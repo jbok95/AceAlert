@@ -24,7 +24,7 @@ def get_time_items(target_date, num_players, booking_class, schedule_id):
         # Filter items with the "time" tag
         time_items = [item['time'] for item in data if 'time' in item]
 
-        return time_items, data
+        return time_items
 
     except requests.exceptions.HTTPError as errh:
         print(f"HTTP Error: {errh}")

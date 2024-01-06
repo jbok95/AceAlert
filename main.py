@@ -78,9 +78,9 @@ def tee_time_booker(request):
 
 if __name__ == "__main__":
     my_request = {
-        "release_time": 0,#"06:00:00", #Input 0 if want to schedule immediately. Otherwise, hh:mm:ss
-        "preferred_tee_time": "15:07",
-        "max_tee_time": "09:30"
+        "release_time": "06:00:00", #Input 0 if want to schedule immediately. Otherwise, hh:mm:ss
+        "preferred_tee_time": "8:37",
+        "max_tee_time": "09:00"
         }
     json_request = json.dumps(my_request)
     tee_time_booker(json_request)
