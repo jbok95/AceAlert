@@ -2,7 +2,7 @@
 
 import json
 from deploy_functions.book_tee_time import book_tee_time, generate_payload
-from deploy_functions.get_target_date import get_target_date_url, get_target_date_payload
+from deploy_functions.get_target_date import get_target_date_payload
 from deploy_functions.get_time_items import get_time_items
 from deploy_functions.convert_times import convert_times
 from deploy_functions.filter_times import filter_times, best_time
@@ -22,18 +22,19 @@ def tee_time_booker(request):
         request_json = request.get_json()
 
     # Pulls specified times from Cloud Scheduler
-    preferred_tee_time = request_json.get('preferred_tee_time', '08:37')
-    max_tee_time = request_json.get('max_tee_time', '10:00')
+    target_date = request_json.get('target_date')
+    preferred_tee_time = request_json.get('preferred_tee_time')
+    max_tee_time = request_json.get('max_tee_time')
 
     # Tries to book the target tee time first
-    first_try = get_target_date_payload() + " "+preferred_tee_time #08:37
+    first_try = get_target_date_payload(target_date) + " "+preferred_tee_time
     my_payload = generate_payload(first_try)
     my_success = book_tee_time(my_payload)
 
     if my_success != 200:
 
         # Returns the date in correct format for one week from the day
-        url_target_date = get_target_date_url()
+        url_target_date = target_date
 
         # Pulls all times currently available in format mm-dd-yyyy hh:mm from the URL
         num_players = 4
@@ -61,7 +62,7 @@ def tee_time_booker(request):
             print(optimal_time)
 
             # If tee time is available, then books tee time
-            payload_date_time = get_target_date_payload() + " " + optimal_time
+            payload_date_time = get_target_date_payload(target_date) + " " + optimal_time
             my_payload = generate_payload(payload_date_time)
             book_tee_time(my_payload)
         else:
@@ -71,8 +72,9 @@ def tee_time_booker(request):
 
 if __name__ == "__main__":
     my_request = {
+        "target_date": "02-18-2024",
         "preferred_tee_time": "8:37",
-        "max_tee_time": "09:00"
+        "max_tee_time": "10:00"
         }
     json_request = json.dumps(my_request)
     tee_time_booker(json_request)

@@ -5,9 +5,8 @@ import requests
 
 from config import PRIVATE_HEADERS, PRIVATE_PAYLOAD
 
-def generate_payload(date_time):#(data, optimal_date_time):
+def generate_payload(date_time):
     """RETURNS FULL PAYLOAD FOR THE OPTIMAL TIME FOUND"""
-    # initial_payload = [entry for entry in data if entry.get("time") == optimal_date_time]
 
     dt_object = datetime.strptime(date_time, "%Y-%m-%d %H:%M")
     formatted_date = dt_object.strftime("%d%H%M")
