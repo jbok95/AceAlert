@@ -7,7 +7,7 @@ from deploy_functions.get_time_items import get_time_items
 from deploy_functions.convert_times import convert_times
 from deploy_functions.filter_times import filter_times, best_time
 
-def tee_time_booker(request):
+def tee_time_texter_v2(request):
     """
     FINDS THE BEST AVAILABLE TEE TIME AT MANGROVE BAY 
     ONE WEEK OUT AND BOOKS THAT TEE TIME
@@ -77,4 +77,4 @@ if __name__ == "__main__":
         "max_tee_time": "10:00"
         }
     json_request = json.dumps(my_request)
-    tee_time_booker(json_request)
+    tee_time_texter_v2(json_request)
