@@ -6,7 +6,6 @@ from deploy_functions.get_target_date import get_target_date_url, get_target_dat
 from deploy_functions.get_time_items import get_time_items
 from deploy_functions.convert_times import convert_times
 from deploy_functions.filter_times import filter_times, best_time
-from deploy_functions.scheduler import wait_until
 
 def tee_time_booker(request):
     """
@@ -23,14 +22,8 @@ def tee_time_booker(request):
         request_json = request.get_json()
 
     # Pulls specified times from Cloud Scheduler
-    release_time = request_json.get('release_time', '06:00:00')
     preferred_tee_time = request_json.get('preferred_tee_time', '08:37')
     max_tee_time = request_json.get('max_tee_time', '10:00')
-
-    # release_time = "06:00:00" #must be in format hh:mm:ss
-    if release_time != 0:
-        timeout_minutes = 5
-        wait_until(release_time, timeout_minutes)
 
     # Tries to book the target tee time first
     first_try = get_target_date_payload() + " "+preferred_tee_time #08:37
@@ -78,7 +71,6 @@ def tee_time_booker(request):
 
 if __name__ == "__main__":
     my_request = {
-        "release_time": "06:00:00", #Input 0 if want to schedule immediately. Otherwise, hh:mm:ss
         "preferred_tee_time": "8:37",
         "max_tee_time": "09:00"
         }
