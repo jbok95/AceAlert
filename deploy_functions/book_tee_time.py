@@ -5,15 +5,26 @@ import requests
 
 from config import PRIVATE_HEADERS, PRIVATE_PAYLOAD
 
-def generate_payload(date_time):
+def generate_payload(date_time, num_golfers):
     """RETURNS FULL PAYLOAD FOR THE OPTIMAL TIME FOUND"""
 
     dt_object = datetime.strptime(date_time, "%Y-%m-%d %H:%M")
     formatted_date = dt_object.strftime("%d%H%M")
 
     my_payload = PRIVATE_PAYLOAD
+
+    # Update payload for target date and time
     my_payload["time"] = date_time
     my_payload["start_front"] = int("202311"+formatted_date)
+
+    # Update payload for number of golfers
+    update_int_golfers = ['available_spots', 'available_spots_18']
+    for field in update_int_golfers:
+        my_payload[field] = num_golfers
+
+    update_str_golfers = ['players', 'pay_players']
+    for field in update_str_golfers:
+        my_payload[field] = str(num_golfers)
 
     return my_payload
 

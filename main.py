@@ -25,10 +25,11 @@ def ace_alert_scraper(request):
     target_date = request_json.get('target_date')
     preferred_tee_time = request_json.get('preferred_tee_time')
     max_tee_time = request_json.get('max_tee_time')
+    num_golfers = int(request_json.get('num_golfers'))
 
     # Tries to book the target tee time first
     first_try = get_target_date_payload(target_date) + " "+preferred_tee_time
-    my_payload = generate_payload(first_try)
+    my_payload = generate_payload(first_try, num_golfers)
     my_success = book_tee_time(my_payload)
 
     if my_success != 200:
@@ -37,7 +38,7 @@ def ace_alert_scraper(request):
         url_target_date = target_date
 
         # Pulls all times currently available in format mm-dd-yyyy hh:mm from the URL
-        num_players = 4
+        num_players = num_golfers
         booking_class = 12239
         schedule_id = 2149
 
@@ -63,7 +64,7 @@ def ace_alert_scraper(request):
 
             # If tee time is available, then books tee time
             payload_date_time = get_target_date_payload(target_date) + " " + optimal_time
-            my_payload = generate_payload(payload_date_time)
+            my_payload = generate_payload(payload_date_time, num_golfers)
             book_tee_time(my_payload)
         else:
             print(f"No times found earlier than {max_tee_time}.")
@@ -72,9 +73,10 @@ def ace_alert_scraper(request):
 
 if __name__ == "__main__":
     my_request = {
-        "target_date": "02-18-2024",
+        "target_date": "05-22-2025",
         "preferred_tee_time": "8:37",
-        "max_tee_time": "10:00"
+        "max_tee_time": "09:25",
+        "num_golfers": 2
         }
     json_request = json.dumps(my_request)
     ace_alert_scraper(json_request)
