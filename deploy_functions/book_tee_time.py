@@ -3,7 +3,7 @@ from datetime import datetime
 import json
 import requests
 
-from config import PRIVATE_HEADERS, PRIVATE_PAYLOAD
+from deploy_functions.config import PRIVATE_HEADERS, PRIVATE_PAYLOAD
 
 def generate_payload(date_time, num_golfers):
     """RETURNS FULL PAYLOAD FOR THE OPTIMAL TIME FOUND"""
